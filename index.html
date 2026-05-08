@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Atelier Suites — Salon Suites for the Independent Beauty Pro</title>
+<meta name="description" content="Boutique salon suites for hair, lash, skin, brow, and nail pros. Transparent all-in pricing. Reserve your suite online with a refundable deposit." />
+<link rel="canonical" href="https://skynetlabs-salon-suite-demo.vercel.app/" />
+
+<meta property="og:title" content="Atelier Suites — Salon Suites for the Independent Beauty Pro" />
+<meta property="og:description" content="Boutique salon suites. Transparent pricing. Reserve online with a refundable deposit." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://skynetlabs-salon-suite-demo.vercel.app/" />
+<meta property="og:image" content="https://skynetlabs-salon-suite-demo.vercel.app/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        v1: { cream:'#F4EDE4', bone:'#E8DFD3', terra:'#B5654A', brass:'#A8895C', char:'#2A2520' },
+        v2: { bone:'#EDE7DC', sage:'#9CA889', taupe:'#B8A793', black:'#1A1816', ivory:'#FAF6F0' },
+        v3: { blush:'#E8C9BC', claret:'#6B2737', champ:'#D4B896', ivory:'#F8F1E7', espresso:'#3B2A22' },
+      },
+      fontFamily: {
+        italiana: ['Italiana','serif'],
+        cormorant: ['"Cormorant Garamond"','serif'],
+        playfair: ['"Playfair Display"','serif'],
+        inter: ['Inter','sans-serif'],
+        dmsans: ['"DM Sans"','sans-serif'],
+        manrope: ['Manrope','sans-serif'],
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior:smooth; }
+  body { background:#0a0a0a; }
+  .variant { display:none; }
+  body.show-v1 .v1 { display:block; }
+  body.show-v2 .v2 { display:block; }
+  body.show-v3 .v3 { display:block; }
+
+  /* film grain */
+  .grain::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+    opacity:0.06; mix-blend-mode:overlay;
+  }
+
+  /* ken burns */
+  @keyframes kenburns { 0%{transform:scale(1.05)} 100%{transform:scale(1.18)} }
+  .kb { animation:kenburns 22s ease-in-out infinite alternate; }
+
+  /* marquee */
+  @keyframes marq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .marquee { animation:marq 38s linear infinite; }
+
+  /* dropcap */
+  .dropcap::first-letter { float:left; font-family:'Italiana',serif; font-size:4.6em; line-height:.85; padding:.05em .12em 0 0; color:var(--accent); }
+
+  /* italic display */
+  .display { font-feature-settings:"ss01"; letter-spacing:-0.02em; }
+
+  /* switcher */
+  .switcher { position:fixed; top:18px; right:18px; z-index:99; display:flex; gap:6px; padding:6px; background:rgba(20,20,20,.78); backdrop-filter:blur(14px); border-radius:999px; border:1px solid rgba(255,255,255,.08); }
+  .switcher button { font:500 11px/1 'Inter',sans-serif; letter-spacing:.08em; text-transform:uppercase; padding:9px 14px; border-radius:999px; color:#d4d4d4; cursor:pointer; transition:all .25s; }
+  .switcher button.active { background:#fff; color:#0a0a0a; }
+  @media (max-width:640px) { .switcher { top:auto; bottom:16px; right:16px; } }
+
+  /* demo badge */
+  .demo-badge { position:fixed; bottom:14px; left:14px; z-index:99; font:500 11px 'Inter',sans-serif; color:#fff; background:rgba(0,0,0,.6); backdrop-filter:blur(10px); padding:7px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.1); text-decoration:none; }
+  .demo-badge:hover { background:rgba(0,0,0,.85); }
+
+  /* faq accordion */
+  details > summary { list-style:none; cursor:pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+  details[open] .chev { transform:rotate(45deg); }
+  .chev { transition:transform .25s; display:inline-block; }
+
+  /* highlighter swipe */
+  .swipe { position:relative; display:inline-block; }
+  .swipe::before { content:""; position:absolute; inset:auto -4px 6px -4px; height:30%; background:var(--accent); transform:skewX(-3deg); z-index:-1; opacity:.55; }
+
+  /* asym stack */
+  .asym { position:relative; }
+  .asym img:nth-child(2) { position:absolute; bottom:-80px; right:-30px; width:46%; border:8px solid var(--accent-bg, #fff); }
+
+  /* cursor orb */
+  #orb { position:fixed; width:22px; height:22px; border-radius:50%; pointer-events:none; z-index:50; mix-blend-mode:difference; background:#fff; transition:transform .14s ease-out, width .25s, height .25s; }
+</style>
+</head>
+<body class="show-v1">
+
+<!-- Variant Switcher -->
+<nav class="switcher" aria-label="Variant switcher">
+  <button data-v="v1" class="active">V1 · Editorial</button>
+  <button data-v="v2">V2 · Cinematic</button>
+  <button data-v="v3">V3 · Boutique</button>
+</nav>
+
+<!-- Cursor orb -->
+<div id="orb" aria-hidden="true"></div>
+
+<!-- Demo badge -->
+<a class="demo-badge" href="https://www.skynetjoe.com" target="_blank" rel="noopener">Built by SkynetLabs ↗</a>
+
+<!-- ==================== V1 EDITORIAL ==================== -->
+<main class="variant v1 grain" style="--accent:#B5654A; --accent-bg:#F4EDE4">
+  <div class="bg-v1-cream text-v1-char font-inter">
+
+  <!-- Header -->
+  <header class="absolute top-0 inset-x-0 z-30 px-6 md:px-12 py-6 flex items-center justify-between">
+    <a href="#" class="font-italiana text-2xl tracking-tight">Atelier <em class="italic">Suites</em></a>
+    <nav class="hidden md:flex gap-8 text-sm tracking-wide">
+      <a href="#suites" class="hover:text-v1-terra">Suites</a>
+      <a href="#tour" class="hover:text-v1-terra">Tours</a>
+      <a href="#story" class="hover:text-v1-terra">Story</a>
+      <a href="#faq" class="hover:text-v1-terra">FAQ</a>
+    </nav>
+    <a href="#reserve" class="hidden md:inline-flex items-center gap-2 text-sm border border-v1-char rounded-full px-5 py-2 hover:bg-v1-char hover:text-v1-cream transition">Reserve →</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-end overflow-hidden">
+    <div class="absolute inset-0">
+      <img class="kb w-full h-full object-cover" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1800&q=80" alt="Editorial salon suite interior with brass fixtures and warm light" />
+      <div class="absolute inset-0 bg-gradient-to-t from-v1-cream via-v1-cream/30 to-transparent"></div>
+    </div>
+    <div class="relative z-10 px-6 md:px-12 pb-20 md:pb-32 max-w-6xl">
+      <p class="text-xs tracking-[0.3em] uppercase mb-6 text-v1-char/70">Salon suites · Boutique tier · Atlanta</p>
+      <h1 class="display font-italiana text-[14vw] md:text-[9vw] leading-[0.9] mb-8">
+        Your suite,<br />your <span class="swipe italic">brand</span>,<br />your IG-ready set.
+      </h1>
+      <p class="font-cormorant text-2xl md:text-3xl italic max-w-2xl mb-10 text-v1-char/85">
+        Twenty-four private studios styled for the way you actually work — and the way your clients photograph you.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#reserve" class="inline-flex items-center gap-3 bg-v1-char text-v1-cream rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v1-terra transition">
+          → Reserve with $250 deposit
+        </a>
+        <a href="#tour" class="inline-flex items-center gap-3 border border-v1-char rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v1-char hover:text-v1-cream transition">
+          Book a private tour
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="py-12 border-y border-v1-char/15 bg-v1-bone overflow-hidden">
+    <div class="marquee flex gap-16 whitespace-nowrap font-italiana text-2xl text-v1-char/70">
+      <span>24 private suites</span><span>✦</span>
+      <span>92% occupied</span><span>✦</span>
+      <span>4.9 ★ tenant rating</span><span>✦</span>
+      <span>24/7 keyless access</span><span>✦</span>
+      <span>Open since 2021</span><span>✦</span>
+      <span>Featured in Allure & Salon Today</span><span>✦</span>
+      <span>24 private suites</span><span>✦</span>
+      <span>92% occupied</span><span>✦</span>
+      <span>4.9 ★ tenant rating</span><span>✦</span>
+      <span>24/7 keyless access</span><span>✦</span>
+      <span>Open since 2021</span><span>✦</span>
+      <span>Featured in Allure & Salon Today</span><span>✦</span>
+    </div>
+  </section>
+
+  <!-- Suite tiers -->
+  <section id="suites" class="relative px-6 md:px-12 py-28">
+    <div class="absolute top-12 right-12 font-italiana text-[14rem] leading-none text-v1-char/[0.04] select-none">01</div>
+    <div class="max-w-6xl mx-auto relative">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v1-terra">The Suites</p>
+      <h2 class="font-italiana text-5xl md:text-7xl mb-4 leading-[1.05]">Transparent pricing.<br /><em>Refundable deposit.</em></h2>
+      <p class="font-cormorant text-xl italic max-w-2xl mb-16 text-v1-char/75">No phone tag. No tour-gated rate sheet. Pick a tier, lock the suite, take a tour the same week.</p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Studio -->
+        <div class="bg-v1-bone p-10 rounded-sm">
+          <p class="text-xs tracking-widest uppercase text-v1-terra mb-3">Studio</p>
+          <h3 class="font-italiana text-3xl mb-2">Solo Suite</h3>
+          <p class="text-sm text-v1-char/70 mb-6">85–110 sq ft · 1 chair · shampoo bowl optional</p>
+          <p class="font-italiana text-5xl mb-1">$295<span class="text-base font-inter">/wk</span></p>
+          <p class="text-xs text-v1-char/60 mb-8">all-in: water · wi-fi · towels · laundry · backbar credit</p>
+          <ul class="text-sm space-y-2 mb-8">
+            <li>→ Hair · brow · lash · makeup</li>
+            <li>→ Mirror, lighting, locking storage</li>
+            <li>→ 24/7 keyless entry</li>
+            <li>→ Month-to-month after 90 days</li>
+          </ul>
+          <a href="#reserve" class="text-sm tracking-wide border-b border-v1-char pb-1 hover:text-v1-terra hover:border-v1-terra">→ Reserve</a>
+        </div>
+        <!-- Double -->
+        <div class="bg-v1-char text-v1-cream p-10 rounded-sm relative">
+          <span class="absolute top-6 right-6 text-[10px] tracking-widest uppercase text-v1-brass">Most picked</span>
+          <p class="text-xs tracking-widest uppercase text-v1-brass mb-3">Double</p>
+          <h3 class="font-italiana text-3xl mb-2">Studio Double</h3>
+          <p class="text-sm text-v1-cream/70 mb-6">140–170 sq ft · 2 chairs · shampoo bowl included</p>
+          <p class="font-italiana text-5xl mb-1">$465<span class="text-base font-inter">/wk</span></p>
+          <p class="text-xs text-v1-cream/60 mb-8">all-in + photo wall · IG ring light · in-suite music</p>
+          <ul class="text-sm space-y-2 mb-8">
+            <li>→ Color bar · color spec lighting</li>
+            <li>→ Built-in client waiting bench</li>
+            <li>→ Direct booking from our directory</li>
+            <li>→ Month-to-month after 90 days</li>
+          </ul>
+          <a href="#reserve" class="text-sm tracking-wide border-b border-v1-cream pb-1 hover:text-v1-brass hover:border-v1-brass">→ Reserve</a>
+        </div>
+        <!-- Esthetic -->
+        <div class="bg-v1-bone p-10 rounded-sm">
+          <p class="text-xs tracking-widest uppercase text-v1-terra mb-3">Treatment</p>
+          <h3 class="font-italiana text-3xl mb-2">Esthetic Room</h3>
+          <p class="text-sm text-v1-char/70 mb-6">100–130 sq ft · plumbed · lash & skin ready</p>
+          <p class="font-italiana text-5xl mb-1">$395<span class="text-base font-inter">/wk</span></p>
+          <p class="text-xs text-v1-char/60 mb-8">all-in + dimmable lighting · steam-rated venting · sink</p>
+          <ul class="text-sm space-y-2 mb-8">
+            <li>→ Lash · brow · facials · waxing</li>
+            <li>→ Hot towel cabi included</li>
+            <li>→ Optional bed + cart bundle ($85/wk)</li>
+            <li>→ Month-to-month after 90 days</li>
+          </ul>
+          <a href="#reserve" class="text-sm tracking-wide border-b border-v1-char pb-1 hover:text-v1-terra hover:border-v1-terra">→ Reserve</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / story -->
+  <section id="story" class="relative px-6 md:px-12 py-28 bg-v1-bone">
+    <div class="absolute top-12 left-12 font-italiana text-[14rem] leading-none text-v1-char/[0.04] select-none">02</div>
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative">
+      <div class="asym" style="--accent-bg:#F4EDE4">
+        <img src="https://images.unsplash.com/photo-1633681926022-84852f720b1e?w=900&q=80" alt="Beauty professional working in suite" class="w-full rounded-sm" />
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80" alt="Suite detail with brass and marble" />
+      </div>
+      <div class="md:pl-8">
+        <p class="text-xs tracking-[0.3em] uppercase text-v1-terra mb-6">The Studio</p>
+        <h2 class="font-italiana text-5xl md:text-6xl leading-[1.05] mb-8">Built by a stylist <em>who got tired</em> of corporate suite chains.</h2>
+        <p class="dropcap font-cormorant text-xl leading-relaxed text-v1-char/85 mb-6">After fourteen years behind the chair and three years inside a 90-suite chain, our founder couldn't shake one thing: every salon-suite landlord she'd ever met built the building, then walked away. Atelier was built the other direction — every detail picked by someone who actually does the work.</p>
+        <p class="font-cormorant text-xl italic leading-relaxed text-v1-char/75">"You shouldn't have to sit through a 45-minute tour just to learn the rent. We publish the price, you reserve, you walk through. That's the entire pitch."</p>
+        <p class="mt-6 text-sm tracking-wide text-v1-char/70">— Ari Solano, Founder · Master Stylist (LIC #COS-238441)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How tours work -->
+  <section id="tour" class="relative px-6 md:px-12 py-28">
+    <div class="absolute top-12 right-12 font-italiana text-[14rem] leading-none text-v1-char/[0.04] select-none">03</div>
+    <div class="max-w-6xl mx-auto relative">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v1-terra">How it works</p>
+      <h2 class="font-italiana text-5xl md:text-7xl mb-16 leading-[1.05]">Reserve. Tour. <em>Move in.</em></h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div>
+          <p class="font-italiana text-6xl text-v1-terra mb-4">i.</p>
+          <h3 class="font-italiana text-2xl mb-3">Reserve online</h3>
+          <p class="font-cormorant text-lg italic text-v1-char/80">Pick your tier. Pay a $250 refundable deposit. Suite is held for you for 14 days.</p>
+        </div>
+        <div>
+          <p class="font-italiana text-6xl text-v1-terra mb-4">ii.</p>
+          <h3 class="font-italiana text-2xl mb-3">Walk through</h3>
+          <p class="font-cormorant text-lg italic text-v1-char/80">Private tour booked the same week. Bring your kit, test the lighting, ask anything.</p>
+        </div>
+        <div>
+          <p class="font-italiana text-6xl text-v1-terra mb-4">iii.</p>
+          <h3 class="font-italiana text-2xl mb-3">Move in or refund</h3>
+          <p class="font-cormorant text-lg italic text-v1-char/80">Sign the month-to-month, deposit applies to first week. Not a fit? Full refund, no questions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="px-6 md:px-12 py-28 bg-v1-char text-v1-cream">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase text-v1-brass mb-6">Tenant voices</p>
+      <h2 class="font-italiana text-5xl md:text-6xl mb-16 leading-[1.05]">Built by pros, <em>for pros</em>.</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <figure>
+          <blockquote class="font-cormorant text-xl italic mb-6 text-v1-cream/90">"I moved here from a chain suite and my booked-out rate doubled in 60 days. The lighting alone made my IG go off."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=150&q=80" alt="Maya R." class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <p class="text-sm">Maya R. · Color Specialist</p>
+              <p class="text-xs text-v1-brass">@mayacolorco</p>
+            </div>
+          </figcaption>
+        </figure>
+        <figure>
+          <blockquote class="font-cormorant text-xl italic mb-6 text-v1-cream/90">"Transparent rent. Refundable deposit. The two things every other landlord hides — Atelier put both on the home page. That's why I signed."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=150&q=80" alt="Jess T." class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <p class="text-sm">Jess T. · Lash & Brow Artist</p>
+              <p class="text-xs text-v1-brass">@studiojesst</p>
+            </div>
+          </figcaption>
+        </figure>
+        <figure>
+          <blockquote class="font-cormorant text-xl italic mb-6 text-v1-cream/90">"The 24/7 keyless entry sounds basic until you've worked at a place that locks at 7. I take late clients now and made an extra $1,800 last month."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&q=80" alt="Devon K." class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <p class="text-sm">Devon K. · Master Barber</p>
+              <p class="text-xs text-v1-brass">@devon_kuts</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="px-6 md:px-12 py-28 bg-v1-cream">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v1-terra">Questions</p>
+      <h2 class="font-italiana text-5xl md:text-6xl mb-12 leading-[1.05]">Before you tour.</h2>
+      <div class="divide-y divide-v1-char/15">
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>What's actually included in the rent?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">Water, electric, Wi-Fi, towel service, laundry of capes & towels, common-area cleaning, parking, and a $25/wk backbar credit. The number on the page is the number you pay.</p>
+        </details>
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>Lease term and deposit?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">90-day initial commitment, then month-to-month. $250 deposit holds the suite for 14 days; refundable in full if you don't sign, applied to your first week if you do.</p>
+        </details>
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>Can I customize the suite?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">Paint, signage, lighting swaps, and IG-ready photo walls — yes. Plumbing changes — by request. Anything you add and want to take with you stays yours.</p>
+        </details>
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>How is after-hours access handled?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">Keyless entry tied to your phone, 24/7. Building has 12 cameras + monitored alarm. Late-night clients are welcome — we'll add their name to the visitor list with one tap.</p>
+        </details>
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>Do I need my own insurance?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">Yes — a basic beauty-pro general liability policy ($1M / $2M) is required. We'll send a sample COI and a partner quote ($18/mo) if you don't have one yet.</p>
+        </details>
+        <details class="py-6 group">
+          <summary class="flex justify-between items-center font-italiana text-2xl"><span>What if it's not the right fit?</span><span class="chev text-v1-terra text-3xl">+</span></summary>
+          <p class="font-cormorant text-lg italic mt-4 text-v1-char/80">Tour, walk through, ask anything. If it's not your space, full deposit refund within 3 business days. No tour-trap, no hard sell.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserve CTA -->
+  <section id="reserve" class="px-6 md:px-12 py-28 bg-v1-bone">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-xs tracking-[0.3em] uppercase text-v1-terra mb-6">Reserve a suite</p>
+      <h2 class="font-italiana text-5xl md:text-7xl leading-[1.05] mb-6">Refundable deposit.<br /><em>Locks your suite for 14 days.</em></h2>
+      <p class="font-cormorant text-xl italic max-w-2xl mx-auto mb-12 text-v1-char/80">Tell us a little about you. We'll email a private tour slot and a Stripe link to hold the suite — both inside one business day.</p>
+
+      <form class="grid md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="New Atelier Suites Reservation" />
+        <input required name="name" placeholder="Full name" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra" />
+        <input required type="email" name="email" placeholder="Email" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra" />
+        <input required name="phone" placeholder="Phone" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra" />
+        <input name="instagram" placeholder="Instagram handle (optional)" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra" />
+        <select required name="service" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra md:col-span-2">
+          <option value="">Service category</option>
+          <option>Hair · Color</option>
+          <option>Hair · Cut & style</option>
+          <option>Lash · Brow</option>
+          <option>Esthetic · Skin</option>
+          <option>Nail tech</option>
+          <option>Barber</option>
+          <option>Massage / Body</option>
+          <option>Other</option>
+        </select>
+        <select name="tier" class="bg-transparent border-b border-v1-char/40 px-2 py-3 text-sm focus:outline-none focus:border-v1-terra md:col-span-2">
+          <option value="">Suite tier</option>
+          <option>Solo Suite — $295/wk</option>
+          <option>Studio Double — $465/wk</option>
+          <option>Esthetic Room — $395/wk</option>
+        </select>
+        <textarea name="notes" rows="3" placeholder="Anything we should know about your move-in?" class="bg-transparent border border-v1-char/30 rounded-sm p-3 text-sm focus:outline-none focus:border-v1-terra md:col-span-2"></textarea>
+        <button class="md:col-span-2 bg-v1-char text-v1-cream rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v1-terra transition mt-2">→ Reserve with $250 deposit</button>
+        <p class="md:col-span-2 text-xs text-v1-char/60 text-center">Refundable in full if you don't sign. We'll never share your info.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="px-6 md:px-12 py-16 bg-v1-char text-v1-cream">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+      <div class="md:col-span-2">
+        <p class="font-italiana text-3xl mb-4">Atelier <em>Suites</em></p>
+        <p class="font-cormorant italic text-v1-cream/70 max-w-md">Twenty-four boutique salon suites for the independent beauty professional. Atlanta, GA · open since 2021.</p>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest uppercase text-v1-brass mb-4">Visit</p>
+        <p class="text-sm text-v1-cream/80">1842 Howell Mill Rd<br />Atlanta, GA 30318<br /><a href="tel:+14045550199" class="hover:text-v1-brass">(404) 555-0199</a></p>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest uppercase text-v1-brass mb-4">Hours</p>
+        <p class="text-sm text-v1-cream/80">Tour by appointment<br />Tenants 24/7 keyless</p>
+      </div>
+    </div>
+    <p class="max-w-6xl mx-auto text-xs text-v1-cream/40 mt-12 pt-8 border-t border-v1-cream/10">Demo by <a href="https://www.skynetjoe.com" class="underline hover:text-v1-brass">SkynetLabs</a> · skynetjoe.com — placeholder content for client review.</p>
+  </footer>
+
+  </div>
+</main>
+
+<!-- ==================== V2 CINEMATIC DARK ==================== -->
+<main class="variant v2 grain" style="--accent:#9CA889; --accent-bg:#1A1816">
+  <div class="bg-v2-black text-v2-bone font-dmsans">
+
+  <header class="absolute top-0 inset-x-0 z-30 px-6 md:px-12 py-6 flex items-center justify-between">
+    <a href="#" class="font-cormorant italic text-2xl">Atelier <span class="not-italic">·</span> Suites</a>
+    <nav class="hidden md:flex gap-8 text-sm tracking-wide">
+      <a href="#suitesV2" class="hover:text-v2-sage">Suites</a>
+      <a href="#tourV2" class="hover:text-v2-sage">Tours</a>
+      <a href="#storyV2" class="hover:text-v2-sage">Story</a>
+      <a href="#faqV2" class="hover:text-v2-sage">FAQ</a>
+    </nav>
+    <a href="#reserveV2" class="hidden md:inline-flex items-center gap-2 text-sm border border-v2-sage text-v2-sage rounded-full px-5 py-2 hover:bg-v2-sage hover:text-v2-black transition">Reserve</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img class="kb w-full h-full object-cover opacity-65" src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1800&q=80" alt="Cinematic salon interior, bone and sage tones, soft daylight" />
+      <div class="absolute inset-0 bg-gradient-to-b from-v2-black/30 via-v2-black/40 to-v2-black"></div>
+    </div>
+    <div class="relative z-10 px-6 md:px-12 max-w-6xl">
+      <p class="text-xs tracking-[0.4em] uppercase mb-8 text-v2-sage">A boutique salon suite collective</p>
+      <h1 class="font-cormorant text-[12vw] md:text-[7.5vw] leading-[0.95] mb-10 text-v2-ivory">
+        Quiet rooms.<br /><em class="text-v2-sage">Loud results.</em>
+      </h1>
+      <p class="text-lg md:text-xl max-w-xl mb-12 text-v2-bone/80 leading-relaxed">Twenty-four privately leased suites — built clean, lit warm, and priced on the home page so you don't have to call to find out.</p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#reserveV2" class="inline-flex items-center gap-3 bg-v2-sage text-v2-black rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v2-bone transition">Reserve · $250 deposit</a>
+        <a href="#tourV2" class="inline-flex items-center gap-3 border border-v2-bone/30 rounded-full px-8 py-4 text-sm tracking-wide hover:border-v2-sage hover:text-v2-sage transition">Book a private tour</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="py-10 border-y border-v2-bone/10 overflow-hidden">
+    <div class="marquee flex gap-16 whitespace-nowrap font-cormorant text-xl text-v2-bone/60">
+      <span>24 private suites</span><span class="text-v2-sage">·</span>
+      <span>92% occupancy</span><span class="text-v2-sage">·</span>
+      <span>4.9 average tenant rating</span><span class="text-v2-sage">·</span>
+      <span>Open since 2021</span><span class="text-v2-sage">·</span>
+      <span>24/7 keyless access</span><span class="text-v2-sage">·</span>
+      <span>Featured · Allure · Salon Today</span><span class="text-v2-sage">·</span>
+      <span>24 private suites</span><span class="text-v2-sage">·</span>
+      <span>92% occupancy</span><span class="text-v2-sage">·</span>
+      <span>4.9 average tenant rating</span><span class="text-v2-sage">·</span>
+      <span>Open since 2021</span><span class="text-v2-sage">·</span>
+      <span>24/7 keyless access</span><span class="text-v2-sage">·</span>
+      <span>Featured · Allure · Salon Today</span><span class="text-v2-sage">·</span>
+    </div>
+  </section>
+
+  <!-- Suites -->
+  <section id="suitesV2" class="px-6 md:px-12 py-28">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.4em] uppercase mb-6 text-v2-sage">The Suites</p>
+      <h2 class="font-cormorant text-5xl md:text-7xl mb-6 leading-[1.05] text-v2-ivory">Three tiers. <em>One price.</em><br />Always on the page.</h2>
+      <p class="text-base md:text-lg max-w-2xl mb-16 text-v2-bone/70">No tour-gated rate sheet. No "starting at" fog. The number on the card is the all-in number.</p>
+
+      <div class="grid md:grid-cols-3 gap-px bg-v2-bone/10 border border-v2-bone/10">
+        <article class="bg-v2-black p-10">
+          <p class="text-xs tracking-widest uppercase text-v2-sage mb-3">Studio</p>
+          <h3 class="font-cormorant text-3xl text-v2-ivory mb-2">Solo Suite</h3>
+          <p class="text-sm text-v2-bone/60 mb-8">85–110 sq ft · 1 chair</p>
+          <p class="font-cormorant text-5xl text-v2-ivory mb-1">$295<span class="text-base font-dmsans text-v2-bone/60">/wk</span></p>
+          <p class="text-xs text-v2-bone/50 mb-8">all-in · water · wi-fi · towels · laundry · backbar credit</p>
+          <a href="#reserveV2" class="text-sm tracking-wide text-v2-sage hover:text-v2-bone">Reserve →</a>
+        </article>
+        <article class="bg-v2-bone text-v2-black p-10 relative">
+          <span class="absolute top-6 right-6 text-[10px] tracking-widest uppercase text-v2-sage">Most picked</span>
+          <p class="text-xs tracking-widest uppercase text-v2-black/60 mb-3">Double</p>
+          <h3 class="font-cormorant text-3xl mb-2">Studio Double</h3>
+          <p class="text-sm text-v2-black/60 mb-8">140–170 sq ft · 2 chairs</p>
+          <p class="font-cormorant text-5xl mb-1">$465<span class="text-base font-dmsans text-v2-black/60">/wk</span></p>
+          <p class="text-xs text-v2-black/50 mb-8">all-in · color bar · IG ring light · directory listing</p>
+          <a href="#reserveV2" class="text-sm tracking-wide hover:text-v2-sage">Reserve →</a>
+        </article>
+        <article class="bg-v2-black p-10">
+          <p class="text-xs tracking-widest uppercase text-v2-sage mb-3">Treatment</p>
+          <h3 class="font-cormorant text-3xl text-v2-ivory mb-2">Esthetic Room</h3>
+          <p class="text-sm text-v2-bone/60 mb-8">100–130 sq ft · plumbed</p>
+          <p class="font-cormorant text-5xl text-v2-ivory mb-1">$395<span class="text-base font-dmsans text-v2-bone/60">/wk</span></p>
+          <p class="text-xs text-v2-bone/50 mb-8">all-in · steam-rated venting · sink · dimmable</p>
+          <a href="#reserveV2" class="text-sm tracking-wide text-v2-sage hover:text-v2-bone">Reserve →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="storyV2" class="px-6 md:px-12 py-28 border-t border-v2-bone/10">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 items-center">
+      <div class="md:col-span-7">
+        <p class="text-xs tracking-[0.4em] uppercase text-v2-sage mb-6">The studio</p>
+        <h2 class="font-cormorant text-4xl md:text-6xl leading-[1.05] mb-8 text-v2-ivory">A landlord <em>who actually does the work.</em></h2>
+        <p class="text-lg leading-relaxed text-v2-bone/80 mb-6">Most salon-suite operators are property people. We're a stylist who scaled into ownership — every detail in the building was picked by someone who has spent fourteen years behind a chair.</p>
+        <p class="font-cormorant text-2xl italic text-v2-sage leading-relaxed">"Publish the rent. Refund the deposit. Build a place I'd actually want to work."</p>
+        <p class="mt-6 text-sm tracking-wide text-v2-bone/60">— Ari Solano · Founder · LIC #COS-238441</p>
+      </div>
+      <div class="md:col-span-5">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=80" class="w-full" alt="Founder portrait, low key, warm tones" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Tour -->
+  <section id="tourV2" class="px-6 md:px-12 py-28 bg-v2-ivory text-v2-black">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.4em] uppercase mb-4" style="color:#7a8770">How it works</p>
+      <h2 class="font-cormorant text-5xl md:text-6xl mb-16 leading-[1.05]">Three steps. <em>One business day.</em></h2>
+      <ol class="grid md:grid-cols-3 gap-10">
+        <li>
+          <p class="font-cormorant text-5xl text-v2-sage mb-4">i</p>
+          <h3 class="font-cormorant text-2xl mb-2">Reserve the suite</h3>
+          <p class="text-base text-v2-black/75">Pick your tier · pay $250 refundable · suite held for 14 days.</p>
+        </li>
+        <li>
+          <p class="font-cormorant text-5xl text-v2-sage mb-4">ii</p>
+          <h3 class="font-cormorant text-2xl mb-2">Private walk-through</h3>
+          <p class="text-base text-v2-black/75">Same-week appointment. Bring your kit · test the lighting · ask anything.</p>
+        </li>
+        <li>
+          <p class="font-cormorant text-5xl text-v2-sage mb-4">iii</p>
+          <h3 class="font-cormorant text-2xl mb-2">Move in or refund</h3>
+          <p class="text-base text-v2-black/75">Sign month-to-month, deposit applies · or full refund within 3 days.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="px-6 md:px-12 py-28">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.4em] uppercase text-v2-sage mb-6">Tenant voices</p>
+      <h2 class="font-cormorant text-5xl md:text-6xl mb-16 leading-[1.05] text-v2-ivory">Built by pros. <em>For pros.</em></h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <figure class="border border-v2-bone/15 p-8">
+          <blockquote class="text-base leading-relaxed mb-6 text-v2-bone/85">"I moved from a chain suite. Booked-out rate doubled in 60 days — the lighting alone made my IG go off."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Maya R." />
+            <div>
+              <p class="text-sm">Maya R. · Color</p>
+              <p class="text-xs text-v2-sage">@mayacolorco</p>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="border border-v2-bone/15 p-8">
+          <blockquote class="text-base leading-relaxed mb-6 text-v2-bone/85">"Transparent rent. Refundable deposit. The two things every other landlord hides — Atelier put both on the home page. That's why I signed."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Jess T." />
+            <div>
+              <p class="text-sm">Jess T. · Lash & Brow</p>
+              <p class="text-xs text-v2-sage">@studiojesst</p>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="border border-v2-bone/15 p-8">
+          <blockquote class="text-base leading-relaxed mb-6 text-v2-bone/85">"24/7 keyless sounds basic until you've worked at a place that locks at 7. I made an extra $1,800 last month on late clients."</blockquote>
+          <figcaption class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Devon K." />
+            <div>
+              <p class="text-sm">Devon K. · Barber</p>
+              <p class="text-xs text-v2-sage">@devon_kuts</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faqV2" class="px-6 md:px-12 py-28 border-t border-v2-bone/10">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs tracking-[0.4em] uppercase mb-4 text-v2-sage">Questions</p>
+      <h2 class="font-cormorant text-5xl md:text-6xl mb-12 leading-[1.05] text-v2-ivory">Before you tour.</h2>
+      <div class="divide-y divide-v2-bone/15">
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>What's included in the rent?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">Water, electric, Wi-Fi, towel + laundry service, parking, common-area cleaning, and a $25/wk backbar credit.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>Lease + deposit?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">90-day initial commitment, then month-to-month. $250 refundable deposit holds the suite 14 days.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>Customization?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">Paint, signage, lighting, photo walls — yes. Plumbing — by request. Anything you add stays yours.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>After-hours access?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">Keyless, phone-tied, 24/7. 12 cameras + monitored alarm. Late clients = one-tap visitor pass.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>Insurance?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">$1M / $2M beauty-pro GL. We send a sample COI + a partner quote ($18/mo) if you don't have one.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-cormorant"><span>Not the right fit?</span><span class="chev text-v2-sage text-2xl">+</span></summary><p class="mt-3 text-base text-v2-bone/80">Full deposit refund within 3 business days. No tour-trap, no hard sell.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserve -->
+  <section id="reserveV2" class="px-6 md:px-12 py-28 bg-v2-ivory text-v2-black">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs tracking-[0.4em] uppercase mb-6" style="color:#7a8770">Reserve</p>
+      <h2 class="font-cormorant text-5xl md:text-6xl leading-[1.05] mb-6">$250 holds your suite. <em>Refundable.</em></h2>
+      <p class="text-lg mb-12 text-v2-black/75">Form takes 30 seconds. Stripe link + private tour slot in your inbox inside one business day.</p>
+      <form class="grid md:grid-cols-2 gap-4 text-left" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="New Atelier Suites Reservation (V2)" />
+        <input required name="name" placeholder="Full name" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage" />
+        <input required type="email" name="email" placeholder="Email" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage" />
+        <input required name="phone" placeholder="Phone" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage" />
+        <input name="instagram" placeholder="Instagram (optional)" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage" />
+        <select required name="service" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage md:col-span-2"><option value="">Service category</option><option>Hair · Color</option><option>Hair · Cut & style</option><option>Lash · Brow</option><option>Esthetic · Skin</option><option>Nail tech</option><option>Barber</option><option>Massage / Body</option></select>
+        <select name="tier" class="bg-transparent border-b border-v2-black/30 px-2 py-3 text-sm focus:outline-none focus:border-v2-sage md:col-span-2"><option value="">Suite tier</option><option>Solo Suite — $295/wk</option><option>Studio Double — $465/wk</option><option>Esthetic Room — $395/wk</option></select>
+        <textarea name="notes" rows="3" placeholder="Move-in timing or anything we should know" class="bg-transparent border border-v2-black/20 p-3 text-sm focus:outline-none focus:border-v2-sage md:col-span-2"></textarea>
+        <button class="md:col-span-2 bg-v2-black text-v2-ivory rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v2-sage hover:text-v2-black transition mt-2">Reserve · $250 deposit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="px-6 md:px-12 py-16 border-t border-v2-bone/10">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+      <div class="md:col-span-2">
+        <p class="font-cormorant text-3xl text-v2-ivory mb-4">Atelier <em>Suites</em></p>
+        <p class="text-base text-v2-bone/65 max-w-md">Twenty-four boutique salon suites for the independent beauty professional. Atlanta, GA · open since 2021.</p>
+      </div>
+      <div><p class="text-xs tracking-widest uppercase text-v2-sage mb-4">Visit</p><p class="text-sm text-v2-bone/75">1842 Howell Mill Rd<br />Atlanta, GA 30318<br /><a href="tel:+14045550199" class="hover:text-v2-sage">(404) 555-0199</a></p></div>
+      <div><p class="text-xs tracking-widest uppercase text-v2-sage mb-4">Hours</p><p class="text-sm text-v2-bone/75">Tour by appointment<br />Tenants 24/7 keyless</p></div>
+    </div>
+    <p class="max-w-6xl mx-auto text-xs text-v2-bone/40 mt-12 pt-8 border-t border-v2-bone/10">Demo by <a href="https://www.skynetjoe.com" class="underline hover:text-v2-sage">SkynetLabs</a> · skynetjoe.com — placeholder content for client review.</p>
+  </footer>
+
+  </div>
+</main>
+
+<!-- ==================== V3 BOUTIQUE BOLD ==================== -->
+<main class="variant v3" style="--accent:#6B2737; --accent-bg:#F8F1E7">
+  <div class="bg-v3-ivory text-v3-espresso font-manrope">
+
+  <header class="absolute top-0 inset-x-0 z-30 px-6 md:px-12 py-6 flex items-center justify-between">
+    <a href="#" class="font-playfair italic text-2xl text-v3-claret">Atelier <span class="text-v3-espresso">Suites</span></a>
+    <nav class="hidden md:flex gap-8 text-sm tracking-wide">
+      <a href="#suitesV3" class="hover:text-v3-claret">Suites</a>
+      <a href="#tourV3" class="hover:text-v3-claret">Tours</a>
+      <a href="#storyV3" class="hover:text-v3-claret">Story</a>
+      <a href="#faqV3" class="hover:text-v3-claret">FAQ</a>
+    </nav>
+    <a href="#reserveV3" class="hidden md:inline-flex items-center gap-2 text-sm bg-v3-claret text-v3-ivory rounded-full px-5 py-2 hover:bg-v3-espresso transition">Reserve →</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center px-6 md:px-12 pt-32 pb-20 overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-[700px] h-[700px] bg-v3-blush rounded-full opacity-50 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-v3-champ rounded-full opacity-30 blur-3xl"></div>
+    <div class="relative z-10 max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-center">
+      <div class="md:col-span-7">
+        <p class="text-xs tracking-[0.3em] uppercase mb-6 text-v3-claret">A boutique salon-suite atelier · Atlanta</p>
+        <h1 class="font-playfair text-[14vw] md:text-[8.5vw] leading-[0.9] mb-8">
+          <span class="italic text-v3-claret">Lease the room.</span><br />
+          Build the brand.
+        </h1>
+        <p class="text-lg md:text-xl max-w-xl mb-10 text-v3-espresso/80 leading-relaxed">Twenty-four salon suites for hair, lash, skin, brow & nail pros — priced on the page, deposit refundable, and styled like a place you'd be proud to tag.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#reserveV3" class="inline-flex items-center gap-3 bg-v3-claret text-v3-ivory rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v3-espresso transition">Reserve · $250 refundable</a>
+          <a href="#tourV3" class="inline-flex items-center gap-3 border border-v3-espresso rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v3-espresso hover:text-v3-ivory transition">Book a tour</a>
+        </div>
+      </div>
+      <div class="md:col-span-5">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1633681926022-84852f720b1e?w=900&q=80" class="w-full rounded-sm" alt="Stylist working in boutique suite" />
+          <div class="absolute -bottom-6 -left-6 bg-v3-champ p-6 max-w-[200px] rounded-sm shadow-lg">
+            <p class="font-playfair italic text-3xl text-v3-claret">92%</p>
+            <p class="text-xs text-v3-espresso/80 mt-1">Currently occupied · 2 suites left</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="bg-v3-claret text-v3-ivory py-8 overflow-hidden">
+    <div class="marquee flex gap-12 whitespace-nowrap font-playfair italic text-2xl">
+      <span>24 suites</span><span>—</span><span>92% occupied</span><span>—</span><span>4.9★ tenants</span><span>—</span><span>open since 2021</span><span>—</span><span>Allure feature</span><span>—</span><span>24/7 access</span><span>—</span>
+      <span>24 suites</span><span>—</span><span>92% occupied</span><span>—</span><span>4.9★ tenants</span><span>—</span><span>open since 2021</span><span>—</span><span>Allure feature</span><span>—</span><span>24/7 access</span><span>—</span>
+    </div>
+  </section>
+
+  <!-- Suites -->
+  <section id="suitesV3" class="px-6 md:px-12 py-28 bg-v3-ivory">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v3-claret">The Tiers</p>
+      <h2 class="font-playfair text-5xl md:text-7xl mb-6 leading-[1.05]"><em class="text-v3-claret">Pricing</em>, on the page.</h2>
+      <p class="text-lg max-w-2xl mb-16 text-v3-espresso/75">No tour-gated rates. No "starting at" trick. Pick a tier, pay the deposit, walk through the same week.</p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-v3-blush p-10 rounded-sm">
+          <p class="text-xs tracking-widest uppercase text-v3-claret mb-3">Solo</p>
+          <h3 class="font-playfair text-3xl mb-2">Solo Suite</h3>
+          <p class="text-sm text-v3-espresso/75 mb-6">85–110 sq ft · 1 chair</p>
+          <p class="font-playfair text-5xl mb-1">$295<span class="text-base font-manrope">/wk</span></p>
+          <p class="text-xs text-v3-espresso/65 mb-8">all-in: water · wi-fi · towels · laundry · backbar</p>
+          <a href="#reserveV3" class="text-sm tracking-wide border-b border-v3-espresso pb-1 hover:text-v3-claret hover:border-v3-claret">Reserve →</a>
+        </div>
+        <div class="bg-v3-claret text-v3-ivory p-10 rounded-sm relative">
+          <span class="absolute top-6 right-6 text-[10px] tracking-widest uppercase text-v3-champ">Most picked</span>
+          <p class="text-xs tracking-widest uppercase text-v3-champ mb-3">Double</p>
+          <h3 class="font-playfair text-3xl mb-2">Studio Double</h3>
+          <p class="text-sm text-v3-ivory/75 mb-6">140–170 sq ft · 2 chairs</p>
+          <p class="font-playfair text-5xl mb-1">$465<span class="text-base font-manrope">/wk</span></p>
+          <p class="text-xs text-v3-ivory/65 mb-8">all-in + color bar · IG ring light · directory listing</p>
+          <a href="#reserveV3" class="text-sm tracking-wide border-b border-v3-champ pb-1 hover:text-v3-champ">Reserve →</a>
+        </div>
+        <div class="bg-v3-champ p-10 rounded-sm">
+          <p class="text-xs tracking-widest uppercase text-v3-claret mb-3">Treatment</p>
+          <h3 class="font-playfair text-3xl mb-2">Esthetic Room</h3>
+          <p class="text-sm text-v3-espresso/75 mb-6">100–130 sq ft · plumbed</p>
+          <p class="font-playfair text-5xl mb-1">$395<span class="text-base font-manrope">/wk</span></p>
+          <p class="text-xs text-v3-espresso/65 mb-8">all-in + steam venting · sink · dimmable lighting</p>
+          <a href="#reserveV3" class="text-sm tracking-wide border-b border-v3-espresso pb-1 hover:text-v3-claret hover:border-v3-claret">Reserve →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="storyV3" class="px-6 md:px-12 py-28 bg-v3-blush">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=80" class="w-full rounded-sm" alt="Founder portrait" />
+      </div>
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase text-v3-claret mb-6">The studio</p>
+        <h2 class="font-playfair text-5xl md:text-6xl leading-[1.05] mb-8"><em class="text-v3-claret">Built</em> by a stylist.<br />Run by one too.</h2>
+        <p class="dropcap text-lg leading-relaxed text-v3-espresso/85 mb-6">Fourteen years behind the chair. Three years inside a 90-suite chain. One quiet realization: every salon-suite landlord I'd ever met built the building, then walked away. Atelier was built the other direction.</p>
+        <p class="font-playfair italic text-2xl text-v3-claret leading-relaxed">"Publish the rent. Refund the deposit. Build a place I'd actually want to work."</p>
+        <p class="mt-6 text-sm tracking-wide text-v3-espresso/70">— Ari Solano, Founder · Master Stylist (LIC #COS-238441)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tour -->
+  <section id="tourV3" class="px-6 md:px-12 py-28 bg-v3-ivory">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v3-claret">How it works</p>
+      <h2 class="font-playfair text-5xl md:text-6xl mb-16 leading-[1.05]">Three steps. <em class="text-v3-claret">One business day.</em></h2>
+      <ol class="grid md:grid-cols-3 gap-10">
+        <li class="border-l-2 border-v3-claret pl-6">
+          <p class="font-playfair italic text-5xl text-v3-claret mb-3">i.</p>
+          <h3 class="font-playfair text-2xl mb-2">Reserve</h3>
+          <p class="text-base text-v3-espresso/80">Pick a tier · $250 refundable · suite held 14 days.</p>
+        </li>
+        <li class="border-l-2 border-v3-claret pl-6">
+          <p class="font-playfair italic text-5xl text-v3-claret mb-3">ii.</p>
+          <h3 class="font-playfair text-2xl mb-2">Walk through</h3>
+          <p class="text-base text-v3-espresso/80">Same-week appointment. Bring your kit. Test everything.</p>
+        </li>
+        <li class="border-l-2 border-v3-claret pl-6">
+          <p class="font-playfair italic text-5xl text-v3-claret mb-3">iii.</p>
+          <h3 class="font-playfair text-2xl mb-2">Move in or refund</h3>
+          <p class="text-base text-v3-espresso/80">Sign month-to-month, deposit applies. Or full refund in 3 days.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="px-6 md:px-12 py-28 bg-v3-espresso text-v3-ivory">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase text-v3-champ mb-6">Tenant voices</p>
+      <h2 class="font-playfair text-5xl md:text-6xl mb-16 leading-[1.05]"><em class="text-v3-champ">Pros</em>, in their own words.</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <figure class="bg-v3-claret/30 p-8 border-l-2 border-v3-champ">
+          <blockquote class="font-playfair italic text-xl mb-6">"My booked-out rate doubled in 60 days. The lighting alone made my IG go off."</blockquote>
+          <figcaption class="flex items-center gap-3"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Maya R." /><div><p class="text-sm">Maya R. · Color</p><p class="text-xs text-v3-champ">@mayacolorco</p></div></figcaption>
+        </figure>
+        <figure class="bg-v3-claret/30 p-8 border-l-2 border-v3-champ">
+          <blockquote class="font-playfair italic text-xl mb-6">"Transparent rent, refundable deposit — the two things every other landlord hides. That's why I signed."</blockquote>
+          <figcaption class="flex items-center gap-3"><img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Jess T." /><div><p class="text-sm">Jess T. · Lash & Brow</p><p class="text-xs text-v3-champ">@studiojesst</p></div></figcaption>
+        </figure>
+        <figure class="bg-v3-claret/30 p-8 border-l-2 border-v3-champ">
+          <blockquote class="font-playfair italic text-xl mb-6">"24/7 keyless = $1,800 in late-client revenue last month. Nothing else compares."</blockquote>
+          <figcaption class="flex items-center gap-3"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&q=80" class="w-11 h-11 rounded-full object-cover" alt="Devon K." /><div><p class="text-sm">Devon K. · Barber</p><p class="text-xs text-v3-champ">@devon_kuts</p></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faqV3" class="px-6 md:px-12 py-28">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs tracking-[0.3em] uppercase mb-4 text-v3-claret">Questions</p>
+      <h2 class="font-playfair text-5xl md:text-6xl mb-12 leading-[1.05]"><em>Before</em> you tour.</h2>
+      <div class="divide-y divide-v3-espresso/15">
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>What's included in the rent?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">Water, electric, Wi-Fi, towel + laundry, parking, common-area cleaning, and a $25/wk backbar credit. The number on the page is the number you pay.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>Lease term & deposit?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">90-day initial commitment, then month-to-month. $250 refundable holds the suite 14 days; applied to first week if you sign.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>Customization?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">Paint, signage, lighting, photo walls — yes. Plumbing — by request. Anything you add stays yours.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>After-hours access?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">Keyless, phone-tied, 24/7. 12 cameras + monitored alarm. Late clients get a one-tap visitor pass.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>Insurance?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">$1M / $2M beauty-pro GL. Sample COI + a partner quote ($18/mo) if you don't have one yet.</p></details>
+        <details class="py-6"><summary class="flex justify-between items-center text-xl font-playfair"><span>Not the right fit?</span><span class="chev text-v3-claret text-2xl">+</span></summary><p class="mt-3 text-base text-v3-espresso/80">Full deposit refund within 3 business days. No tour-trap, no hard sell.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserve -->
+  <section id="reserveV3" class="px-6 md:px-12 py-28 bg-v3-claret text-v3-ivory">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs tracking-[0.3em] uppercase mb-6 text-v3-champ">Reserve</p>
+      <h2 class="font-playfair text-5xl md:text-6xl leading-[1.05] mb-6"><em class="text-v3-champ">$250</em> holds the suite.<br />Refundable.</h2>
+      <p class="text-lg mb-12 text-v3-ivory/80">30-second form. Stripe link + tour slot in your inbox inside one business day.</p>
+      <form class="grid md:grid-cols-2 gap-4 text-left bg-v3-ivory text-v3-espresso p-8 rounded-sm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="New Atelier Suites Reservation (V3)" />
+        <input required name="name" placeholder="Full name" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret" />
+        <input required type="email" name="email" placeholder="Email" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret" />
+        <input required name="phone" placeholder="Phone" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret" />
+        <input name="instagram" placeholder="Instagram (optional)" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret" />
+        <select required name="service" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret md:col-span-2"><option value="">Service category</option><option>Hair · Color</option><option>Hair · Cut & style</option><option>Lash · Brow</option><option>Esthetic · Skin</option><option>Nail tech</option><option>Barber</option><option>Massage / Body</option></select>
+        <select name="tier" class="bg-transparent border-b border-v3-espresso/30 px-2 py-3 text-sm focus:outline-none focus:border-v3-claret md:col-span-2"><option value="">Suite tier</option><option>Solo Suite — $295/wk</option><option>Studio Double — $465/wk</option><option>Esthetic Room — $395/wk</option></select>
+        <textarea name="notes" rows="3" placeholder="Move-in timing or notes" class="bg-transparent border border-v3-espresso/20 p-3 text-sm focus:outline-none focus:border-v3-claret md:col-span-2"></textarea>
+        <button class="md:col-span-2 bg-v3-claret text-v3-ivory rounded-full px-8 py-4 text-sm tracking-wide hover:bg-v3-espresso transition mt-2">→ Reserve · $250 deposit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="px-6 md:px-12 py-16 bg-v3-espresso text-v3-ivory">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+      <div class="md:col-span-2"><p class="font-playfair italic text-3xl mb-4">Atelier <span class="not-italic">Suites</span></p><p class="text-base text-v3-ivory/70 max-w-md">Twenty-four boutique salon suites for the independent beauty pro. Atlanta, GA · open since 2021.</p></div>
+      <div><p class="text-xs tracking-widest uppercase text-v3-champ mb-4">Visit</p><p class="text-sm text-v3-ivory/80">1842 Howell Mill Rd<br />Atlanta, GA 30318<br /><a href="tel:+14045550199" class="hover:text-v3-champ">(404) 555-0199</a></p></div>
+      <div><p class="text-xs tracking-widest uppercase text-v3-champ mb-4">Hours</p><p class="text-sm text-v3-ivory/80">Tour by appointment<br />Tenants 24/7 keyless</p></div>
+    </div>
+    <p class="max-w-6xl mx-auto text-xs text-v3-ivory/40 mt-12 pt-8 border-t border-v3-ivory/10">Demo by <a href="https://www.skynetjoe.com" class="underline hover:text-v3-champ">SkynetLabs</a> · skynetjoe.com — placeholder content for client review.</p>
+  </footer>
+
+  </div>
+</main>
+
+<!-- ==================== SCHEMA ==================== -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"HealthAndBeautyBusiness",
+      "@id":"https://skynetlabs-salon-suite-demo.vercel.app/#org",
+      "name":"Atelier Suites",
+      "description":"Boutique salon suite rentals for hair, lash, skin, brow, and nail professionals. Transparent pricing, refundable online deposit, 24/7 access.",
+      "url":"https://skynetlabs-salon-suite-demo.vercel.app/",
+      "telephone":"+1-404-555-0199",
+      "address":{
+        "@type":"PostalAddress",
+        "streetAddress":"1842 Howell Mill Rd",
+        "addressLocality":"Atlanta",
+        "addressRegion":"GA",
+        "postalCode":"30318",
+        "addressCountry":"US"
+      },
+      "priceRange":"$$",
+      "amenityFeature":[
+        {"@type":"LocationFeatureSpecification","name":"24/7 keyless access","value":true},
+        {"@type":"LocationFeatureSpecification","name":"Wi-Fi","value":true},
+        {"@type":"LocationFeatureSpecification","name":"Free parking","value":true},
+        {"@type":"LocationFeatureSpecification","name":"Towel & laundry service","value":true}
+      ],
+      "makesOffer":[
+        {"@type":"Offer","name":"Solo Suite","priceCurrency":"USD","price":"295","priceSpecification":{"@type":"UnitPriceSpecification","price":"295","priceCurrency":"USD","unitText":"WEEK"}},
+        {"@type":"Offer","name":"Studio Double","priceCurrency":"USD","price":"465","priceSpecification":{"@type":"UnitPriceSpecification","price":"465","priceCurrency":"USD","unitText":"WEEK"}},
+        {"@type":"Offer","name":"Esthetic Room","priceCurrency":"USD","price":"395","priceSpecification":{"@type":"UnitPriceSpecification","price":"395","priceCurrency":"USD","unitText":"WEEK"}}
+      ],
+      "openingHours":"Mo-Su 00:00-23:59"
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What's included in the rent?","acceptedAnswer":{"@type":"Answer","text":"Water, electric, Wi-Fi, towel and laundry service, parking, common-area cleaning, and a $25/wk backbar credit."}},
+        {"@type":"Question","name":"Lease term and deposit?","acceptedAnswer":{"@type":"Answer","text":"90-day initial commitment, then month-to-month. $250 refundable deposit holds the suite for 14 days."}},
+        {"@type":"Question","name":"Can I customize my suite?","acceptedAnswer":{"@type":"Answer","text":"Paint, signage, lighting, and photo walls are welcome. Plumbing changes by request. Anything you add stays yours."}},
+        {"@type":"Question","name":"How does after-hours access work?","acceptedAnswer":{"@type":"Answer","text":"Keyless phone-tied entry, 24/7. 12 cameras and monitored alarm. Late clients get a one-tap visitor pass."}},
+        {"@type":"Question","name":"Do I need my own insurance?","acceptedAnswer":{"@type":"Answer","text":"Yes — a $1M / $2M beauty-pro general liability policy is required. We send a sample COI and a partner quote at $18/mo if you do not have one yet."}},
+        {"@type":"Question","name":"What if it's not the right fit?","acceptedAnswer":{"@type":"Answer","text":"Full deposit refund within 3 business days. No tour-trap and no hard sell."}}
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ==================== JS ==================== -->
+<script>
+(function(){
+  const body = document.body;
+  const buttons = document.querySelectorAll('.switcher button');
+  const setVariant = (v) => {
+    body.classList.remove('show-v1','show-v2','show-v3');
+    body.classList.add('show-'+v);
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.v === v));
+    if (location.hash !== '#'+v) history.replaceState(null,'','#'+v);
+    window.scrollTo({top:0,behavior:'instant'});
+  };
+  buttons.forEach(b => b.addEventListener('click', () => setVariant(b.dataset.v)));
+  const fromHash = (location.hash || '').replace('#','');
+  if (['v1','v2','v3'].includes(fromHash)) setVariant(fromHash);
+
+  // cursor orb
+  const orb = document.getElementById('orb');
+  let tx=0, ty=0, cx=0, cy=0;
+  document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  (function loop(){
+    cx += (tx - cx) * 0.14; cy += (ty - cy) * 0.14;
+    orb.style.transform = `translate(${cx-11}px, ${cy-11}px)`;
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a, button, summary').forEach(el => {
+    el.addEventListener('mouseenter', () => { orb.style.width='44px'; orb.style.height='44px'; });
+    el.addEventListener('mouseleave', () => { orb.style.width='22px'; orb.style.height='22px'; });
+  });
+})();
+</script>
+</body>
+</html>

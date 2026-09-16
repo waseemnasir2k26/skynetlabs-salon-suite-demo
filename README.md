@@ -2,6 +2,10 @@
 
 Speculative landing page demo for a boutique salon suite rental brief (Fiverr, $279, 2-week scope).
 
+## Status
+
+Last reviewed: September 2026 · release v2026.09
+
 3 design variants in a single HTML file. Sticky top-right switcher, hash-persistent (`#v1` `#v2` `#v3`).
 
 ## Variants
